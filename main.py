@@ -29,7 +29,10 @@ class ChatSession:
 
     def __init__(self):
         self.history = [
-            {"role": "system", "content": "You are a helpful assistant. Reply concisely."}
+            {
+            "role": "system",
+            "content": "You are a helpful assistant. Reply concisely. Your name is Tamir San."
+            }
         ]
 
     def add_user(self, message: str):
@@ -84,7 +87,7 @@ class ChatLoop:
             try:
                 reply = self.client.send(self.session.history)
                 self.session.add_assistant(reply)
-                print(f"\nTamir san: {reply}\n")
+                print(f"\nTamir San: {reply}\n")
             except RuntimeError as e:
                 print(f"Error: {e}\n")
 

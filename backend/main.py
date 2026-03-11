@@ -42,7 +42,7 @@ class ChatRequest(BaseModel):
 def chat(req: ChatRequest):
     """Receive a message + history, return AI reply."""
     messages = [
-        {"role": "system", "content": "You are a helpful assistant. Reply concisely."},
+        {"role": "system", "content": "Your name is Tamir san. You are a helpful assistant. Reply concisely."},
         *req.history,
         {"role": "user", "content": req.message},
     ]
