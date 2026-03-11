@@ -20,25 +20,19 @@ client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
 )
 
-# Free models to try in order (fallback if one is rate-limited)
-# Models with different providers for resilience:
-# - Venice provider: qwen, llama, mistral, hermes
-# - Google AI Studio: gemma
-# - OpenAI infra: gpt-oss
-FREE_MODELS = [
-    "openai/gpt-oss-20b:free",
-    "openai/gpt-oss-120b:free",
-    "google/gemma-3-27b-it:free",
-    "google/gemma-3-12b-it:free",
-    "qwen/qwen3-4b:free",
-    "meta-llama/llama-3.3-70b-instruct:free",
-    "mistralai/mistral-small-3.1-24b-instruct:free",
+# Models to try in order (starts with cheapest, fallback to others)
+MODELS = [
+    "openai/o4-mini",
+    "openai/gpt-4.1-mini",
+    "anthropic/claude-3-haiku",
+    "google/gemini-2.0-flash-exp:free",
+    "microsoft/phi-3-mini-128k-instruct:free",
 ]
 
 
 def ask(prompt: str) -> str:
-    """Send a prompt, trying each free model until one responds."""
-    for model in FREE_MODELS:
+    """Send a prompt, trying each model until one responds."""
+    for model in MODELS:
         try:
             response = client.chat.completions.create(
                 model=model,
@@ -51,19 +45,37 @@ def ask(prompt: str) -> str:
             return response.choices[0].message.content
         except Exception as e:
             print(f"  [skipping {model}: {e}]")
-    raise RuntimeError("All free models failed. Try again in a few minutes.")
+    raise RuntimeError("All models failed. Try again in a few minutes.")
 
 
 if __name__ == "__main__":
-    print(f"Available free models: {FREE_MODELS}\n")
+    print("💬 Local GPT Chat — type your message, or 'exit' to quit.\n")
 
-    questions = [
-        "What is OpenRouter in one sentence?",
-        "Name 3 popular free AI models available on OpenRouter.",
-        "Write a Python one-liner that reverses a string.",
+    history = [
+        {"role": "system", "content": "You are a helpful assistant. Reply concisely."}
     ]
 
-    for q in questions:
-        print(f"Q: {q}")
-        answer = ask(q)
-        print(f"A: {answer}\n")
+    while True:
+        user_input = input("You: ").strip()
+        if not user_input:
+            continue
+        if user_input.lower() == "exit":
+            print("Goodbye! 👋")
+            break
+
+        history.append({"role": "user", "content": user_input})
+
+        for model in MODELS:
+            try:
+                response = client.chat.completions.create(
+                    model=model,
+                    messages=history,
+                )
+                reply = response.choices[0].message.content
+                history.append({"role": "assistant", "content": reply})
+                print(f"\nAI ({model}): {reply}\n")
+                break
+            except Exception as e:
+                print(f"  [skipping {model}: {e}]")
+        else:
+            print("All models failed. Try again.\n")
