@@ -1,14 +1,3 @@
-"""
-OpenRouter - Simple Example
-----------------------------
-OpenRouter is an API gateway that gives you access to hundreds of AI models
-(GPT-4, Claude, Llama, Gemma, Mistral and more) through a single unified API.
-It is fully compatible with the OpenAI SDK — just change the base_url.
-
-Free models are available and don't require billing info.
-Full model list: https://openrouter.ai/models?q=free
-"""
-
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -31,24 +20,42 @@ client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
 )
 
-# A completely free model (no billing required)
-FREE_MODEL = "meta-llama/llama-3.1-8b-instruct:free"
+# Free models to try in order (fallback if one is rate-limited)
+# Models with different providers for resilience:
+# - Venice provider: qwen, llama, mistral, hermes
+# - Google AI Studio: gemma
+# - OpenAI infra: gpt-oss
+FREE_MODELS = [
+    "openai/gpt-oss-20b:free",
+    "openai/gpt-oss-120b:free",
+    "google/gemma-3-27b-it:free",
+    "google/gemma-3-12b-it:free",
+    "qwen/qwen3-4b:free",
+    "meta-llama/llama-3.3-70b-instruct:free",
+    "mistralai/mistral-small-3.1-24b-instruct:free",
+]
 
 
 def ask(prompt: str) -> str:
-    """Send a prompt to the model and return the text response."""
-    response = client.chat.completions.create(
-        model=FREE_MODEL,
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant. Reply concisely."},
-            {"role": "user", "content": prompt},
-        ],
-    )
-    return response.choices[0].message.content
+    """Send a prompt, trying each free model until one responds."""
+    for model in FREE_MODELS:
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant. Reply concisely."},
+                    {"role": "user", "content": prompt},
+                ],
+            )
+            print(f"  [model used: {model}]")
+            return response.choices[0].message.content
+        except Exception as e:
+            print(f"  [skipping {model}: {e}]")
+    raise RuntimeError("All free models failed. Try again in a few minutes.")
 
 
 if __name__ == "__main__":
-    print(f"Using model: {FREE_MODEL}\n")
+    print(f"Available free models: {FREE_MODELS}\n")
 
     questions = [
         "What is OpenRouter in one sentence?",
