@@ -16,9 +16,11 @@ body {
   color: #eee;
   display: flex;
   flex-direction: column;
-  /* 100dvh accounts for mobile browser chrome (address bar) */
-  height: 100dvh;
-  height: 100vh; /* fallback for older browsers */
+  /* svh = small viewport height: always fits inside visible browser area */
+  height: 100svh;
+  height: 100dvh; /* fallback: dynamic viewport height */
+  height: 100vh;  /* final fallback for older browsers */
+  max-height: -webkit-fill-available; /* iOS Safari fix */
 }
 
 header {
