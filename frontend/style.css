@@ -78,43 +78,6 @@ header {
 
 #model-select:hover { border-color: #aaa; }
 
-#color-controls {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 0.85rem;
-}
-
-#color-controls label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-}
-
-#color-controls input[type="color"] {
-  width: 28px;
-  height: 28px;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  padding: 0;
-  background: none;
-}
-
-#apply-colors-btn {
-  padding: 6px 14px;
-  border-radius: 16px;
-  border: none;
-  background: #2ecc71;
-  color: #fff;
-  font-size: 0.85rem;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-#apply-colors-btn:hover { background: #27ae60; }
-
 #chat-box {
   flex: 1;
   overflow-y: auto;
