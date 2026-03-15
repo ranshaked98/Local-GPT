@@ -3,6 +3,8 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 # Load API key from .env (one level up)
@@ -24,13 +26,22 @@ MODELS = [
 # --- FastAPI App ---
 app = FastAPI()
 
-# Allow the frontend (port 5500) to talk to us
+# Allow all origins — needed for ngrok public URLs
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5500", "http://127.0.0.1:5500"],
-    allow_methods=["POST"],
-    allow_headers=["Content-Type"],
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
+# Serve the frontend folder as static files
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..", "frontend")
+app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
+
+@app.get("/")
+def serve_frontend():
+    """Serve index.html at the root URL."""
+    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
 
 # --- Data model for incoming request ---
 class ChatRequest(BaseModel):

@@ -1,4 +1,5 @@
-const BACKEND_URL = "http://localhost:8000/chat";
+// Works for both local (localhost:8000) and ngrok (public URL)
+const BACKEND_URL = `${window.location.origin}/chat`;
 
 const chatBox    = document.getElementById("chat-box");
 const userInput  = document.getElementById("user-input");
