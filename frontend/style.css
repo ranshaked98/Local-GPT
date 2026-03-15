@@ -28,7 +28,29 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
 }
+
+#header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+#new-chat-btn {
+  padding: 6px 14px;
+  border-radius: 16px;
+  border: none;
+  background: #444;
+  color: #eee;
+  font-size: 0.82rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+#new-chat-btn:hover { background: #666; }
 
 #model-controls {
   display: flex;

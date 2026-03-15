@@ -24,6 +24,23 @@ document.getElementById("apply-colors-btn").addEventListener("click", () => {
 // Stores conversation history to send to backend
 let history = [];
 
+// --- New Chat button ---
+document.getElementById("new-chat-btn").addEventListener("click", () => {
+  if (!confirm("Start a new chat? The current conversation will be cleared.")) return;
+
+  // Clear history array
+  history = [];
+
+  // Clear all bubbles from the UI and show welcome message
+  chatBox.innerHTML = `
+    <div class="message ai">
+      <div class="model-tag">TAMIR SAN</div>
+      Hello! How can I help you today?
+    </div>`;
+
+  userInput.focus();
+});
+
 // Add a message bubble to the chat UI
 function addMessage(role, text, model = "") {
   const div = document.createElement("div");
