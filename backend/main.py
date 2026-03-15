@@ -36,18 +36,22 @@ app.add_middleware(
 class ChatRequest(BaseModel):
     message: str
     history: list = []
+    model: str = "openai/o4-mini"   # default if frontend sends nothing
 
 # --- API Endpoint ---
 @app.post("/chat")
 def chat(req: ChatRequest):
-    """Receive a message + history, return AI reply."""
+    """Receive a message + history + chosen model, return AI reply."""
     messages = [
         {"role": "system", "content": "Your name is Tamir san. You are a helpful assistant. Reply concisely."},
         *req.history,
         {"role": "user", "content": req.message},
     ]
 
-    for model in MODELS:
+    # Try the model the user chose first, then fall back to the rest
+    preferred = req.model
+    fallbacks  = [m for m in MODELS if m != preferred]
+    for model in [preferred, *fallbacks]:
         try:
             response = client.chat.completions.create(
                 model=model,

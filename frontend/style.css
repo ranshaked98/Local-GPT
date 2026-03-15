@@ -30,6 +30,32 @@ header {
   justify-content: space-between;
 }
 
+#model-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+#model-controls label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#model-select {
+  background: var(--input-bg);
+  color: #eee;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  outline: none;
+}
+
+#model-select:hover { border-color: #aaa; }
+
 #color-controls {
   display: flex;
   align-items: center;

@@ -10,6 +10,17 @@
 
   <header>
     <span>💬 Local GPT</span>
+    <div id="model-controls">
+      <label>🤖 Model
+        <select id="model-select">
+          <option value="openai/o4-mini">OpenAI o4-mini</option>
+          <option value="openai/gpt-4.1-mini">GPT-4.1 mini</option>
+          <option value="anthropic/claude-3-haiku">Claude 3 Haiku</option>
+          <option value="google/gemini-flash-1.5">Gemini Flash 1.5</option>
+          <option value="meta-llama/llama-3.1-8b-instruct:free">LLaMA 3.1 8B (Free)</option>
+        </select>
+      </label>
+    </div>
     <div id="color-controls">
       <label>🌙 BG     <input type="color" id="pick-bg"     value="#1a1a2e" /></label>
       <label>🗂 Header <input type="color" id="pick-header" value="#16213e" /></label>

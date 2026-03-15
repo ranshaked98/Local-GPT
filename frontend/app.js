@@ -1,9 +1,10 @@
 const BACKEND_URL = "http://localhost:8000/chat";
 
-const chatBox  = document.getElementById("chat-box");
-const userInput = document.getElementById("user-input");
-const sendBtn  = document.getElementById("send-btn");
-const root     = document.documentElement;
+const chatBox    = document.getElementById("chat-box");
+const userInput  = document.getElementById("user-input");
+const sendBtn    = document.getElementById("send-btn");
+const modelSelect = document.getElementById("model-select");
+const root       = document.documentElement;
 
 // --- Apply colors button ---
 document.getElementById("apply-colors-btn").addEventListener("click", () => {
@@ -58,7 +59,7 @@ async function sendMessage() {
     const response = await fetch(BACKEND_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, history }),
+      body: JSON.stringify({ message, history, model: modelSelect.value }),
     });
 
     const data = await response.json();
