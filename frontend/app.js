@@ -1,8 +1,24 @@
 const BACKEND_URL = "http://localhost:8000/chat";
 
-const chatBox = document.getElementById("chat-box");
+const chatBox  = document.getElementById("chat-box");
 const userInput = document.getElementById("user-input");
-const sendBtn = document.getElementById("send-btn");
+const sendBtn  = document.getElementById("send-btn");
+const root     = document.documentElement;
+
+// --- Apply colors button ---
+document.getElementById("apply-colors-btn").addEventListener("click", () => {
+  const bg     = document.getElementById("pick-bg").value;
+  const header = document.getElementById("pick-header").value;
+  const bubble = document.getElementById("pick-bubble").value;
+  const btn    = document.getElementById("pick-btn").value;
+
+  root.style.setProperty("--bg-color",     bg);
+  root.style.setProperty("--header-color", header);
+  root.style.setProperty("--bubble-user",  bubble);
+  root.style.setProperty("--bubble-ai",    header);   // AI bubble = header tone
+  root.style.setProperty("--input-bg",     bubble);
+  root.style.setProperty("--send-btn",     btn);
+});
 
 // Stores conversation history to send to backend
 let history = [];

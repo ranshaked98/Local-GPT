@@ -1,8 +1,18 @@
+/* CSS Variables — ALL colors are controlled from here */
+:root {
+  --bg-color:     #1a1a2e;
+  --header-color: #16213e;
+  --bubble-user:  #0f3460;
+  --bubble-ai:    #16213e;
+  --input-bg:     #0f3460;
+  --send-btn:     #e94560;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: Arial, sans-serif;
-  background: #1a1a2e;
+  background: var(--bg-color);
   color: #eee;
   display: flex;
   flex-direction: column;
@@ -10,12 +20,52 @@ body {
 }
 
 header {
-  background: #16213e;
+  background: var(--header-color);
   padding: 16px 24px;
   font-size: 1.2rem;
   font-weight: bold;
   border-bottom: 1px solid #0f3460;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
+
+#color-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.85rem;
+}
+
+#color-controls label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+#color-controls input[type="color"] {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  background: none;
+}
+
+#apply-colors-btn {
+  padding: 6px 14px;
+  border-radius: 16px;
+  border: none;
+  background: #2ecc71;
+  color: #fff;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#apply-colors-btn:hover { background: #27ae60; }
 
 #chat-box {
   flex: 1;
@@ -35,13 +85,13 @@ header {
 }
 
 .message.user {
-  background: #0f3460;
+  background: var(--bubble-user);
   align-self: flex-end;
   border-bottom-right-radius: 4px;
 }
 
 .message.ai {
-  background: #16213e;
+  background: var(--bubble-ai);
   align-self: flex-start;
   border-bottom-left-radius: 4px;
 }
@@ -56,7 +106,7 @@ header {
   display: flex;
   padding: 16px;
   gap: 10px;
-  background: #16213e;
+  background: var(--header-color);
   border-top: 1px solid #0f3460;
 }
 
@@ -65,7 +115,7 @@ header {
   padding: 10px 16px;
   border-radius: 24px;
   border: none;
-  background: #0f3460;
+  background: var(--input-bg);
   color: #fff;
   font-size: 1rem;
   outline: none;
@@ -75,7 +125,7 @@ header {
   padding: 10px 22px;
   border-radius: 24px;
   border: none;
-  background: #e94560;
+  background: var(--send-btn);
   color: #fff;
   font-size: 1rem;
   cursor: pointer;
